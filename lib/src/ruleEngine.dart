@@ -1,49 +1,35 @@
-//import './validationRule.dart';
+import 'package:flutter/widgets.dart';
+
 import './validationResult.dart';
 import './validationFailure.dart';
 import './ruleBuilder.dart';
 import './ruleContainer.dart';
 
+//TODO: not exactly liking that we hard code a dependency on GlobalKey<FormFieldState>
+
 class RuleEngine {
-  Map<String, RuleContainer> rules;
+  Map<String, RuleContainer> _rules;
+  Map<String, GlobalKey> _keys;
 
   RuleEngine() {
-    rules = Map<String, RuleContainer>();
+    _rules = Map<String, RuleContainer>();
+    _keys = Map<String, GlobalKey<FormFieldState>>();
   }
 
-  /*
-  create a container to hold rules for a property/key
-  use cascades to keep adding rules to that container by calling notempty.notnull.etc...
-  */
-
+  //Create a container to hold rules for a property/key
+  //Use cascades to keep adding rules to that container by calling notempty.notnull.etc...
   RuleBuilder ruleFor(String key) {
     var container = new RuleContainer();
-    rules.putIfAbsent(key, () => container);
-    // _addRule(key, container);
+    _rules.putIfAbsent(key, () {
+      _keys.putIfAbsent(key, () => GlobalKey<FormFieldState>());
+      return container;
+    });
     return new RuleBuilder(key, container);
   }
 
-  // void _addRule(String key, RuleContainer container) {
-    
-  //   // if(!rules.containsKey(key))
-  //   // {
-  //   //   rules[key] = new RuleContainer();
-  //   // }
-  //   // else {
-  //   //   rules[key] = container;
-  //   // }
-  // }
-
-  // void _addRule(String key, ValidationRule rule) {
-  //   //var values = rules.putIfAbsent(key, () => new List<ValidationRule>()..add(rule));
-  //   if(!rules.containsKey(key))
-  //   {
-  //     rules[key] = new List<ValidationRule>()..add(rule);
-  //   }
-  //   else {
-  //     rules[key].add(rule);
-  //   }
-  // }
+  GlobalKey keyFor(String key) {
+    return _keys[key];
+  }
 
   //TODO: not implemented yet...
   ValidationResult validate() {
@@ -52,19 +38,19 @@ class RuleEngine {
     return null;
   }
 
-  ValidationResult validateOnly(String key, Object value) {
+  ValidationResult validateRuleFor(String key, Object value) {
     var result = new ValidationResult();
-    if(rules.containsKey(key)) {
+    if (_rules.containsKey(key)) {
       //Iterate each ValidationRule and invoke its validate method
-      rules[key].rules.forEach((r)
-        {
-          //Accumulate validation failures in order to create a validation result.
-          var isValid = r.isValid(value);
-          if(!isValid) {
-            result.errors.add(new ValidationFailure()..associatedWith = key..errorMessage=r.message);
-          }
+      _rules[key].rules.forEach((r) {
+        //Accumulate validation failures in order to create a validation result.
+        var isValid = r.isValid(value);
+        if (!isValid) {
+          result.errors.add(new ValidationFailure()
+            ..associatedWith = key
+            ..errorMessage = r.message);
         }
-      );
+      });
     }
     //TODO: throw err if key not found
 

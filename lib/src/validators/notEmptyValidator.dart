@@ -2,7 +2,7 @@ import 'baseValidator.dart';
 
 class NotEmptyValidator extends BaseValidator  {
 
-  NotEmptyValidator(String key) : super(key, "$key must be specified");
+  NotEmptyValidator(String key) : super(key, "$key must be specified.");
 
   @override
   bool isValid(Object value) {

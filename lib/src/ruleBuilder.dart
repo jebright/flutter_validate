@@ -1,3 +1,5 @@
+import 'package:flutter_validate/src/validators/lengthValidator.dart';
+
 import './validators/notEmptyValidator.dart';
 import './validators/notEqualValidator.dart';
 //import './validationRule.dart';
@@ -19,6 +21,11 @@ class RuleBuilder  {
 
   notEqual(Object compareTo) {
     var validator = new NotEqualValidator(_key, compareTo);
+    _container.rules.add(validator);
+  }
+
+  length(min, max) {
+    var validator = new LengthValidator(_key, min, max);
     _container.rules.add(validator);
   }
 
