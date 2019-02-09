@@ -40,8 +40,8 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   MyCustomFormState() {
     _engine.ruleFor("fullName")
-      ..notEmpty()
-      ..length(10, 20);
+      ..notEmpty()..withMessage('Name is required.')
+      ..length(10, 20)..withMessage('Name must be between 10 and 20 characters.');
     _engine.ruleFor("dob")..notEmpty();
   }
 

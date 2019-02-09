@@ -20,7 +20,7 @@ class RuleEngine {
   //Use cascades to keep adding rules to that container by calling notempty.notnull.etc...
   RuleBuilder ruleFor(String key) {
     var container = new RuleContainer();
-    _rules.putIfAbsent(key, () {
+      _rules.putIfAbsent(key, () {
       _keys.putIfAbsent(key, () => GlobalKey<FormFieldState>());
       return container;
     });
