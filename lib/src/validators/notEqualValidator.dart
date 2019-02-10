@@ -14,9 +14,8 @@ class NotEqualValidator extends BaseValidator {
     return notEqual(value, _compareTo);
   }
 
-  bool notEqual(String a, String b) {
+  static bool notEqual(String a, String b) {
     bool equal = a == b;
-    if(!equal) message = null;
     return !equal;
   }
 
