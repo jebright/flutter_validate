@@ -31,11 +31,31 @@ class RuleEngine {
     return _keys[key];
   }
 
-  //TODO: not implemented yet...
   ValidationResult validate() {
     //rules.forEach(f)...
 
+    //A validator cannot be assigned to a formfield post creation as it is declared final.
+
+
     return null;
+  }
+
+    // Returns a map of all of the heroes in context, indexed by hero tag.
+  static List<FormFieldState> formFields(BuildContext context) {
+    assert(context != null);
+    final List<FormFieldState> result = <FormFieldState>[];
+    void visitor(Element element) {
+      if (element.widget is FormField) {
+        final StatefulElement field = element;
+        // final FormField widget = element.widget;
+        // widget.validator = ();
+        final FormFieldState state = field.state;
+        result.add(state);
+      }
+      element.visitChildren(visitor);
+    }
+    context.visitChildElements(visitor);
+    return result;
   }
 
   ValidationResult validateRuleFor(String key, Object value) {
