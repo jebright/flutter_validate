@@ -1,4 +1,6 @@
 import 'package:flutter_validate/src/validators/lengthValidator.dart';
+import 'package:flutter_validate/src/validators/wrappingValidator.dart';
+import 'package:flutter_validate/src/when.dart';
 
 import './validators/notEmptyValidator.dart';
 import './validators/notEqualValidator.dart';
@@ -32,6 +34,16 @@ class RuleBuilder  {
   withMessage(String message) {
     var rule = _container.rules.last;
     rule.message = message;
+  }
+
+  when(WhenPredicate predicate) {
+    _container.rules.forEach((f) {
+      var validator = new WrappingValidator(predicate, f);
+      var index = _container.rules.indexOf(f);
+      if(index > -1) {
+        _container.rules[index] = validator;
+      }
+    });
   }
 
 }

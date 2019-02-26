@@ -17,4 +17,9 @@ void main() {
     expect(LengthValidator.length(test, 5,10), false);
   });
 
+  test('when string is null, length called, does not throw', ()  {
+    String test;
+    expect(LengthValidator.length(test, 5,10), false);
+  });
+
 }

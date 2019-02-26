@@ -5,38 +5,36 @@ import './validationFailure.dart';
 import './ruleBuilder.dart';
 import './ruleContainer.dart';
 
-//TODO: not exactly liking that we hard code a dependency on GlobalKey<FormFieldState>
-
 class RuleEngine {
   Map<String, RuleContainer> _rules;
-  Map<String, GlobalKey> _keys;
+  //Map<String, GlobalKey> _keys;
 
   RuleEngine() {
     _rules = Map<String, RuleContainer>();
-    _keys = Map<String, GlobalKey<FormFieldState>>();
+   // _keys = Map<String, GlobalKey<FormFieldState>>();
   }
 
   //Create a container to hold rules for a property/key
   //Use cascades to keep adding rules to that container by calling notempty.notnull.etc...
   RuleBuilder ruleFor(String key) {
-    var container = new RuleContainer();
+    var container = new RuleContainer(null);
       _rules.putIfAbsent(key, () {
-      _keys.putIfAbsent(key, () => GlobalKey<FormFieldState>());
+      //_keys.putIfAbsent(key, () => GlobalKey<FormFieldState>());
       return container;
     });
     return new RuleBuilder(key, container);
   }
 
-  GlobalKey keyFor(String key) {
-    return _keys[key];
-  }
+  // GlobalKey keyFor(String key) {
+  //   return _keys[key];
+  // }
 
   //TODO: not implemented yet...
-  ValidationResult validate() {
-    //rules.forEach(f)...
+  // ValidationResult validate() {
+  //   //rules.forEach(f)...
 
-    return null;
-  }
+  //   return null;
+  // }
 
   ValidationResult validateRuleFor(String key, Object value) {
     var result = new ValidationResult();

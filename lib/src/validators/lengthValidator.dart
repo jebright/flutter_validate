@@ -15,6 +15,7 @@ class LengthValidator extends BaseValidator {
   }
 
   static bool length(String value, min, max) {
+    if(value == null) return false;
     return value.length >= min && value.length <= max;
   }
 

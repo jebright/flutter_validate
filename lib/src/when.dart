@@ -1,4 +1,4 @@
-typedef WhenPredicate<T, U> = bool Function(T value1, U value2);
+typedef WhenPredicate<T> = bool Function();
 
 mixin When {
   WhenPredicate _predicate;
