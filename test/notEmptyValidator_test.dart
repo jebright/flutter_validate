@@ -31,10 +31,4 @@ void main() {
     expect(NotEmptyValidator.notEmpty(s), true);
   });
 
-  test('when notEmpty called, name is null and withMessage not used, returns default message', () {
-    var engine = new RuleEngine();
-    engine.ruleFor("Name")..notEmpty();
-    var validationResults = engine.validateRuleFor("Name", null);
-    expect(validationResults.errors[0].errorMessage, "Name must be specified.");
-  });
 }
