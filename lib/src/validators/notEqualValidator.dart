@@ -19,6 +19,4 @@ class NotEqualValidator extends BaseValidator {
     return !equal;
   }
 
-
-
 }
