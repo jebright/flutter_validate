@@ -31,42 +31,56 @@ class MyCustomForm extends StatefulWidget {
 // Create a corresponding State class. This class will hold the data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
-  
+
   final Contact contact = new Contact();
   ContactValidator myContactValidator;
 
   final nameController = new TextEditingController();
   final dobController = new TextEditingController();
   final phoneController = new TextEditingController();
+  final emailController = new TextEditingController();
   FormFieldValidator nameValidator;
   FormFieldValidator dobValidator;
   FormFieldValidator phoneValidator;
+  FormFieldValidator emailValidator;
 
   MyCustomFormState() {
     //Controllers are used to sync up the formfield data with the Contact view model.
     //This allows us to validate against the business object data.
     nameController.addListener(() => contact.name = nameController.text);
-    dobController.addListener(() => contact.dob = DateTime.tryParse(dobController.text));
+    dobController.addListener(() => contact.dob = dobController.text);
     phoneController.addListener(() => contact.phone = phoneController.text);
+    emailController.addListener(() => contact.email = emailController.text);
 
-    //
+    //Create a validator and add rules
     myContactValidator = new ContactValidator(contact);
     myContactValidator.ruleFor("name", () => contact.name)
       ..notEmpty()
       ..withMessage('Name is required.')
       ..length(10, 20)
       ..withMessage('Name must be between 10 and 20 characters.');
-    myContactValidator.ruleFor("dob", () => contact.dob)..notEmpty();
+    myContactValidator.ruleFor("dob", () => contact.dob)
+      ..notEmpty()
+      ..date();
     myContactValidator.ruleFor("phone", () => contact.phone)
       ..notEmpty()
+      ..phoneNumber()
       ..when(() => contact.contactPreference == 'PHONE');
+    myContactValidator.ruleFor("email", () => contact.email)
+      ..notEmpty()
+      ..emailAddress()
+      ..when(() => contact.contactPreference == 'EMAIL');
 
+    //In Flutter, signaling a validation rule error is done by providing any
+    //non-null text to a FormField's validator.
     nameValidator =
         (value) => myContactValidator.validateRuleFor("name").errorText;
     dobValidator =
         (value) => myContactValidator.validateRuleFor("dob").errorText;
     phoneValidator =
         (value) => myContactValidator.validateRuleFor("phone").errorText;
+    emailValidator = 
+        (value) => myContactValidator.validateRuleFor("email").errorText;
   }
 
   @override
@@ -131,15 +145,24 @@ class MyCustomFormState extends State<MyCustomForm> {
             keyboardType: TextInputType.phone,
             validator: phoneValidator,
           ),
+          new TextFormField(
+            decoration: const InputDecoration(
+              icon: const Icon(Icons.email),
+              hintText: 'Enter your email address',
+              labelText: 'Email',
+            ),
+            controller: emailController,
+            keyboardType: TextInputType.emailAddress,
+            validator: emailValidator,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: RaisedButton(
               onPressed: () {
                 if (_formKey.currentState.validate()) {
-                  Scaffold.of(context)
-                      .showSnackBar(SnackBar(content: Text('Good news! All data in form is valid!')));
-                }
-                else {
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                      content: Text('Good news! All data in form is valid!')));
+                } else {
                   Scaffold.of(context)
                       .showSnackBar(SnackBar(content: Text('Form not valid!')));
                 }
@@ -155,7 +178,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               },
               child: Text('Reset'),
             ),
-          ), 
+          ),
         ],
       ),
     );

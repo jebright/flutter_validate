@@ -1,6 +1,10 @@
 import 'baseValidator.dart';
 import 'package:intl/intl.dart';
 
+///A validator used to validate dates that originate from an input string.  Any locale
+///supported by Dart is supported here, but en_US is the default.  There is a dependency
+///on Intl.dart so you will need to set Intl.defaultLocale (e.g. Intl.defaultLocale = 'en_GB')
+///and call initializeDateFormatting.  See the unit tests for an example.
 class DateValidator extends BaseValidator {
 
   ///Note: by default the Intl library loads en_US as the defaultLocale.  However you need to change
@@ -26,7 +30,7 @@ class DateValidator extends BaseValidator {
       else {
         d = new DateFormat(format).parseStrict(value);
       }
-      print('Validated $value using the locale of ${Intl.getCurrentLocale()} - result $d');
+      //print('Validated $value using the locale of ${Intl.getCurrentLocale()} - result $d');
       return true;
     } catch (e) {
       return false;

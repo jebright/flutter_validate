@@ -1,10 +1,10 @@
+import 'package:flutter_validate/src/validators/dateValidator.dart';
 import 'package:flutter_validate/src/validators/lengthValidator.dart';
 import 'package:flutter_validate/src/validators/wrappingValidator.dart';
 import 'package:flutter_validate/src/when.dart';
-
 import './validators/notEmptyValidator.dart';
 import './validators/notEqualValidator.dart';
-//import './validationRule.dart';
+import './validators/regExpValidator.dart';
 import './ruleContainer.dart';
 
 class RuleBuilder  {
@@ -28,6 +28,26 @@ class RuleBuilder  {
 
   length(min, max) {
     var validator = new LengthValidator(_key, min, max);
+    _container.rules.add(validator);
+  }
+
+  phoneNumber() {
+    var validator = new RegExpValidator(_key, usPhoneMatcher);
+    _container.rules.add(validator);
+  }
+
+  emailAddress() {
+    var validator = new RegExpValidator(_key, emailMatcher);
+    _container.rules.add(validator);
+  }
+
+  date() {
+    var validator = new DateValidator(_key);
+    _container.rules.add(validator);
+  }
+
+  matches(String regex) {
+    var validator = new RegExpValidator(_key, regex);
     _container.rules.add(validator);
   }
 

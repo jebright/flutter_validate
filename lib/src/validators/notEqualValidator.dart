@@ -1,5 +1,6 @@
 import 'baseValidator.dart';
 
+///A validator used to check if two inputs are not equal.
 class NotEqualValidator extends BaseValidator {
   
 //TODO: need to support more than just strings

@@ -2,6 +2,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_validate/flutter_validate.dart';
 
 void main() {
+
+  test(
+      'null phone #, isValid called, is True',
+      () {
+    expect(RegExpValidator.isValidUSPhoneNumber(null), true);
+  });
+
   test(
       'valid US phone # without dashes or parenthesis, isValid called, is True',
       () {
@@ -29,9 +36,14 @@ void main() {
     expect(RegExpValidator.isValidUSPhoneNumber('+61 2 9192 0995'), false);
   });
   
-  test('valid Mexico phone # with dashes, isValid called for US #, is True',
+  test('valid Mexico phone # with dashes, isValid called for US #, is false',
       () {
     expect(RegExpValidator.isValidUSPhoneNumber('+52-624-142-9999'), false);
+  });
+
+  test('null email, isValid called, is True',
+      () {
+    expect(RegExpValidator.isValidEmailAddress(null), true);
   });
 
   test('valid email, isValid called, is True',
