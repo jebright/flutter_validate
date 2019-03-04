@@ -39,10 +39,14 @@ class MyCustomFormState extends State<MyCustomForm> {
   final dobController = new TextEditingController();
   final phoneController = new TextEditingController();
   final emailController = new TextEditingController();
+  final passwordController = new TextEditingController();
+  final confirmPasswordController = new TextEditingController();
   FormFieldValidator nameValidator;
   FormFieldValidator dobValidator;
   FormFieldValidator phoneValidator;
   FormFieldValidator emailValidator;
+  FormFieldValidator passwordValidator;
+  FormFieldValidator confirmPasswordValidator;
 
   MyCustomFormState() {
     //Controllers are used to sync up the formfield data with the Contact view model.
@@ -51,6 +55,8 @@ class MyCustomFormState extends State<MyCustomForm> {
     dobController.addListener(() => contact.dob = dobController.text);
     phoneController.addListener(() => contact.phone = phoneController.text);
     emailController.addListener(() => contact.email = emailController.text);
+    passwordController.addListener(() => contact.password = passwordController.text);
+    confirmPasswordController.addListener(() => contact.confirmPassword = confirmPasswordController.text);
 
     //Create a validator and add rules
     myContactValidator = new ContactValidator(contact);
@@ -70,6 +76,11 @@ class MyCustomFormState extends State<MyCustomForm> {
       ..notEmpty()
       ..emailAddress()
       ..when(() => contact.contactPreference == 'EMAIL');
+    myContactValidator.ruleFor("password", () => contact.password)
+      ..notEmpty()
+      ..length(8, 16);
+    myContactValidator.ruleFor("confirmPassword", () => contact.confirmPassword)
+      ..equal(() => contact.password, 'Password');
 
     //In Flutter, signaling a validation rule error is done by providing any
     //non-null text to a FormField's validator.
@@ -81,6 +92,10 @@ class MyCustomFormState extends State<MyCustomForm> {
         (value) => myContactValidator.validateRuleFor("phone").errorText;
     emailValidator = 
         (value) => myContactValidator.validateRuleFor("email").errorText;
+    passwordValidator = 
+        (value) => myContactValidator.validateRuleFor("password").errorText;
+    confirmPasswordValidator = 
+        (value) => myContactValidator.validateRuleFor("confirmPassword").errorText;
   }
 
   @override
@@ -155,6 +170,28 @@ class MyCustomFormState extends State<MyCustomForm> {
             keyboardType: TextInputType.emailAddress,
             validator: emailValidator,
           ),
+          new TextFormField(
+            decoration: const InputDecoration(
+              icon: const Icon(Icons.lock),
+              hintText: 'Enter your password',
+              labelText: 'Password',
+            ),
+            controller: passwordController,
+            keyboardType: TextInputType.text,
+            obscureText: true,
+            validator: passwordValidator,
+          ),
+          new TextFormField(
+            decoration: const InputDecoration(
+              icon: const Icon(Icons.lock),
+              hintText: 'Enter your password again',
+              labelText: 'Confirm Password',
+            ),
+            controller: confirmPasswordController,
+            keyboardType: TextInputType.text,
+            obscureText: true,
+            validator: confirmPasswordValidator,
+          ),          
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: RaisedButton(

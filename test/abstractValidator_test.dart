@@ -22,7 +22,7 @@ void main() {
     myValidator.ruleFor("name", () => contact.name)
       ..notEmpty()
       ..withMessage("Name should not be empty")
-      ..notEqual("frank")
+      ..notEqual(() =>"frank")
       ..withMessage("name should not equal frank");
     var validationResults = myValidator.validateRuleFor("name");
     expect(validationResults.errors.isEmpty, true);
@@ -33,7 +33,7 @@ void main() {
     myValidator.ruleFor("name", () => contact.name)
       ..notEmpty()
       ..withMessage("name is required!")
-      ..notEqual("frank")
+      ..notEqual(() => "frank")
       ..withMessage("name should not equal frank");
     var validationResults = myValidator.validateRuleFor("name");
     expect(validationResults.errors.length, 1);
@@ -44,7 +44,7 @@ void main() {
   test('when chaining validators notEqual & length & using errorText, not equal and length both fail, errorText has 2 errors separated by space', () {
     contact.name = 'admin';
     myValidator.ruleFor("name", () => contact.name)
-      ..notEqual('admin')
+      ..notEqual(() => 'admin', 'admin')
       ..length(6, 10);
     var errorText = myValidator.validateRuleFor("name").errorText;
     expect(errorText != null, true);

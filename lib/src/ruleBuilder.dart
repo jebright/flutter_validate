@@ -1,4 +1,5 @@
 import 'package:flutter_validate/src/validators/dateValidator.dart';
+import 'package:flutter_validate/src/validators/equalValidator.dart';
 import 'package:flutter_validate/src/validators/lengthValidator.dart';
 import 'package:flutter_validate/src/validators/wrappingValidator.dart';
 import 'package:flutter_validate/src/when.dart';
@@ -21,8 +22,13 @@ class RuleBuilder  {
     _container.rules.add(validator);
   }
 
-  notEqual(Object compareTo) {
-    var validator = new NotEqualValidator(_key, compareTo);
+  notEqual(Function compareTo, [String compareToField]) {
+    var validator = new NotEqualValidator(_key, compareTo, compareToField);
+    _container.rules.add(validator);
+  }
+
+  equal(Function compareTo, [String compareToField]) {
+    var validator = new EqualValidator(_key, compareTo, compareToField);
     _container.rules.add(validator);
   }
 
