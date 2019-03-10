@@ -53,4 +53,14 @@ abstract class AbstractValidator<T> {
     return result;
   }
 
+  ///Returns all errors in a text format.  Errors are separated by delimiter (default is a space).
+  ///IMPORTANT: Executing this method has the side-effect of also executing validate().
+  String errors() {
+    var lst = validate();
+    String result = lst.fold<String>('', (previous, element)  {
+      return '$previous ${element.errorText}'; 
+    });
+    return result.trim();
+  }
+
 }

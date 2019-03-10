@@ -7,7 +7,7 @@ class NotEqualValidator extends BaseValidator {
   String _compareToField;
   
   NotEqualValidator(String key, Function compareTo, [String compareToField])
-      : super(key, "$key is not valid") {
+      : super(key, "$key is not valid.") {
     _compareTo = compareTo;
     _compareToField = compareToField;
     if(_compareToField != null) {

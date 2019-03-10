@@ -66,7 +66,17 @@ void main() {
     });
     expect(validationResults.length, 3, reason: '3 fields, 3 sets of results');
     expect(totalErrorMessages, 4, reason: '3 fields, 4 validations in total');
+  });
 
+  test('all error test', () {
+    contact.phone = '123';
+    contact.password = 'password';
+    myValidator.ruleFor('name', () => contact.name)..notEmpty();
+    myValidator.ruleFor('phone', () => contact.phone)..phoneNumber();
+    myValidator.ruleFor('password', () => contact.password)..length(16, 16)..notEqual(() => 'password');
+
+    var allErrors = myValidator.errors();
+    expect(allErrors, 'name must be specified. phone is not valid. password must be between 16 and 16. password is not valid.');
   });
 
 }
