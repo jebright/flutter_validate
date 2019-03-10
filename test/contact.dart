@@ -6,6 +6,7 @@ class Contact {
   String contactPreference = "EMAIL"; //PHONE, EMAIL
   String phone;
   String email;
+  String password;
 }
 
 class ContactValidator extends AbstractValidator<Contact> {

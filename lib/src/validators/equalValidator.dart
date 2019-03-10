@@ -11,7 +11,7 @@ class EqualValidator extends BaseValidator {
     _compareTo = compareTo;
     _compareToField = compareToField;
     if(_compareToField != null) {
-      message = "$key must equal $_compareToField";
+      message = "$key must equal $_compareToField.";
     }
   }
 

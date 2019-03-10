@@ -48,6 +48,35 @@ void main() {
       ..length(6, 10);
     var errorText = myValidator.validateRuleFor("name").errorText;
     expect(errorText != null, true);
-    expect(errorText,"name must not equal 'admin'. name must be between 6 and 10.");
+    expect(errorText,"name must not equal admin. name must be between 6 and 10.");
   });
+
+
+  test('validate all', () {
+    contact.phone = '123';
+    contact.password = 'password';
+    myValidator.ruleFor('name', () => contact.name)..notEmpty();
+    myValidator.ruleFor('phone', () => contact.phone)..phoneNumber();
+    myValidator.ruleFor('password', () => contact.password)..length(16, 16)..notEqual(() => 'password');
+
+    var validationResults = myValidator.validate();
+    var totalErrorMessages = validationResults.fold<int>(0, (previous, element)  {
+      print('Error found: ${element.errorText}');
+      return previous + element.errors.length; 
+    });
+    expect(validationResults.length, 3, reason: '3 fields, 3 sets of results');
+    expect(totalErrorMessages, 4, reason: '3 fields, 4 validations in total');
+  });
+
+  test('all error test', () {
+    contact.phone = '123';
+    contact.password = 'password';
+    myValidator.ruleFor('name', () => contact.name)..notEmpty();
+    myValidator.ruleFor('phone', () => contact.phone)..phoneNumber();
+    myValidator.ruleFor('password', () => contact.password)..length(16, 16)..notEqual(() => 'password');
+
+    var allErrors = myValidator.errors();
+    expect(allErrors, 'name must be specified. phone is not valid. password must be between 16 and 16. password is not valid.');
+  });
+
 }
