@@ -6,7 +6,7 @@ class WrappingValidator extends BaseValidator  {
 
   WhenPredicate _condition;
   BaseValidator _innerValdiator;
-  WrappingValidator(WhenPredicate condition, BaseValidator innerValidator) : super(innerValidator.key, "${innerValidator.key} must be specified.") {
+  WrappingValidator(WhenPredicate condition, BaseValidator innerValidator) : super(innerValidator.key, innerValidator.message) {
     _condition = condition;
     _innerValdiator = innerValidator;
   }

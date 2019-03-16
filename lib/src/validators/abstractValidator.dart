@@ -58,8 +58,9 @@ abstract class AbstractValidator<T> {
   String errors() {
     var lst = validate();
     String result = lst.fold<String>('', (previous, element)  {
-      return '$previous ${element.errorText}'; 
+      return element.errorText != null ? '$previous ${element.errorText}' : null; 
     });
+    if(result == null) return null;
     return result.trim();
   }
 

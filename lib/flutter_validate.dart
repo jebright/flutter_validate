@@ -8,4 +8,5 @@ export 'src/validators/wrappingValidator.dart';
 export 'src/validators/abstractValidator.dart';
 export 'src/validators/regExpValidator.dart';
 export 'src/validators/dateValidator.dart';
+export 'src/validators/mustValidator.dart';
 

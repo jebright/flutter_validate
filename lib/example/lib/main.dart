@@ -48,6 +48,13 @@ class MyCustomFormState extends State<MyCustomForm> {
   FormFieldValidator passwordValidator;
   FormFieldValidator confirmPasswordValidator;
 
+  bool beUniqueEmailAddress<String>(String email) {
+
+    List<String> emails = List.from(["test@test.com", "1@1.com", "joe@gmail.com"]);
+
+    return !emails.contains(email);
+  }
+
   MyCustomFormState() {
     //Controllers are used to sync up the formfield data with the Contact view model.
     //This allows us to validate against the business object data.
@@ -75,6 +82,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     myContactValidator.ruleFor("email", () => contact.email)
       ..notEmpty()
       ..emailAddress()
+      ..must(beUniqueEmailAddress)
       ..when(() => contact.contactPreference == 'EMAIL');
     myContactValidator.ruleFor("password", () => contact.password)
       ..notEmpty()
