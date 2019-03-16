@@ -1,6 +1,7 @@
 import 'package:flutter_validate/src/validators/dateValidator.dart';
 import 'package:flutter_validate/src/validators/equalValidator.dart';
 import 'package:flutter_validate/src/validators/lengthValidator.dart';
+import 'package:flutter_validate/src/validators/mustValidator.dart';
 import 'package:flutter_validate/src/validators/wrappingValidator.dart';
 import 'package:flutter_validate/src/when.dart';
 import './validators/notEmptyValidator.dart';
@@ -54,6 +55,11 @@ class RuleBuilder  {
 
   matches(String regex) {
     var validator = new RegExpValidator(_key, regex);
+    _container.rules.add(validator);
+  }
+
+  must<T>(MustPredicate<T> p) {
+    var validator = new MustValidator<T>(_key, p);
     _container.rules.add(validator);
   }
 

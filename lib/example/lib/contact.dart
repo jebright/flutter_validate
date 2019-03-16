@@ -11,9 +11,6 @@ class Contact {
 }
 
 class ContactValidator extends AbstractValidator<Contact> {
-
   Contact contact;
-
-  ContactValidator(this.contact): super(contact);
-
+  ContactValidator(this.contact) : super(contact);
 }
