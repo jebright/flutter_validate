@@ -48,16 +48,17 @@ class MyCustomFormState extends State<MyCustomForm> {
   FormFieldValidator passwordValidator;
   FormFieldValidator confirmPasswordValidator;
 
+  //Make sure the passed in email address does not already exist
   bool beUniqueEmailAddress<String>(String email) {
-
-    List<String> emails = List.from(["test@test.com", "1@1.com", "joe@gmail.com"]);
-
+    List<String> emails = List.from(["test@test.com", "test1@test.com", "test3@test.com"]);
     return !emails.contains(email);
   }
 
   MyCustomFormState() {
     //Controllers are used to sync up the formfield data with the Contact view model.
     //This allows us to validate against the business object data.
+    //We could just validate against the values coming from the form fields instead and that
+    //might be the direction you go if you do not have a model or a really simple use case.
     nameController.addListener(() => contact.name = nameController.text);
     dobController.addListener(() => contact.dob = dobController.text);
     phoneController.addListener(() => contact.phone = phoneController.text);
@@ -65,7 +66,12 @@ class MyCustomFormState extends State<MyCustomForm> {
     passwordController.addListener(() => contact.password = passwordController.text);
     confirmPasswordController.addListener(() => contact.confirmPassword = confirmPasswordController.text);
 
-    //Create a validator and add rules
+    //Validating an object always begins with creating a validator and is followed by 
+    //adding rules to that validator.  In this case we created a ContactValidator by 
+    //deriving from AbstractValidator<T>.  Then we begin adding rules to the validator
+    //for each Contact property that needed validation.  This is the approach you would
+    //take when validating business objects but again if you don't have an object, you
+    //can use the underlying validators (e.g. notEmptyValidator) directly.
     myContactValidator = new ContactValidator(contact);
     myContactValidator.ruleFor("name", () => contact.name)
       ..notEmpty()
@@ -91,7 +97,8 @@ class MyCustomFormState extends State<MyCustomForm> {
       ..equal(() => contact.password, 'Password');
 
     //In Flutter, signaling a validation rule error is done by providing any
-    //non-null text to a FormField's validator.
+    //non-null text to a FormField's validator.  We declare this outside of the
+    //build method just to keep our code easier to read.
     nameValidator =
         (value) => myContactValidator.validateRuleFor("name").errorText;
     dobValidator =
@@ -111,7 +118,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     // Build a Form widget using the _formKey we created above
     return Form(
       key: _formKey,
-      autovalidate: true,
+      autovalidate: true, //we can flip this on/off to have real-time validation
       child: new ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         children: <Widget>[

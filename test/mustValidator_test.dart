@@ -12,10 +12,10 @@ void main() {
     expect(MustValidator.must(func, 0), false);
   });
 
-  test('must, pass in property value, ...', () {
+  test('must, pass in property value & predicate returns false, is not valid', () {
     String name = 'fred';
-    var p = (String value) {return value != name;};
-    expect(MustValidator.must(p, name), false);
+    var func = (String value) {return value != name;};
+    expect(MustValidator.must(func, name), false);
   });
 
 }
