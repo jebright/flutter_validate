@@ -1,7 +1,6 @@
 import './validationFailure.dart';
 
 class ValidationResult {
-
   List<ValidationFailure> errors;
 
   ValidationResult() {
@@ -10,7 +9,8 @@ class ValidationResult {
 
   String get errorText {
     Iterable<String> text = errors.map((f) => f.errorMessage);
-    return text.join(' '); //TODO: users might not want always separated by space.
+    return text.isNotEmpty
+        ? text.join(' ')
+        : null; //TODO: users might not want always separated by space.
   }
-
 }
