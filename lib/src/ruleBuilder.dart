@@ -9,8 +9,7 @@ import './validators/notEqualValidator.dart';
 import './validators/regExpValidator.dart';
 import './ruleContainer.dart';
 
-class RuleBuilder  {
-
+class RuleBuilder {
   RuleContainer _container;
   String _key;
   RuleBuilder(String key, RuleContainer container) {
@@ -72,10 +71,9 @@ class RuleBuilder  {
     _container.rules.forEach((f) {
       var validator = new WrappingValidator(predicate, f);
       var index = _container.rules.indexOf(f);
-      if(index > -1) {
+      if (index > -1) {
         _container.rules[index] = validator;
       }
     });
   }
-
 }

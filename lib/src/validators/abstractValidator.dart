@@ -13,7 +13,7 @@ abstract class AbstractValidator<T> {
     _rules = Map<String, RuleContainer>();
   }
 
-  ///Create a container to hold rules for a property.  The value of the 
+  ///Create a container to hold rules for a property.  The value of the
   ///property should be returned by the passed in Function
   RuleBuilder ruleFor(String key, Function func) {
     var container = new RuleContainer(func);
@@ -57,11 +57,12 @@ abstract class AbstractValidator<T> {
   ///IMPORTANT: Executing this method has the side-effect of also executing validate().
   String errors() {
     var lst = validate();
-    String result = lst.fold<String>('', (previous, element)  {
-      return element.errorText != null ? '$previous ${element.errorText}' : null; 
+    String result = lst.fold<String>('', (previous, element) {
+      return element.errorText != null
+          ? '$previous ${element.errorText}'
+          : null;
     });
-    if(result == null) return null;
+    if (result == null) return null;
     return result.trim();
   }
-
 }

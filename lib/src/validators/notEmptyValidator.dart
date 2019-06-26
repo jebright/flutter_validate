@@ -1,7 +1,6 @@
 import 'baseValidator.dart';
 
-class NotEmptyValidator extends BaseValidator  {
-
+class NotEmptyValidator extends BaseValidator {
   NotEmptyValidator(String key) : super(key, "$key must be specified.");
 
   @override
@@ -26,6 +25,4 @@ class NotEmptyValidator extends BaseValidator  {
     if (value is! Iterable) return true;
     return (value as Iterable).isNotEmpty;
   }
-
 }
-

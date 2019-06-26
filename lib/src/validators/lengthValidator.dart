@@ -1,10 +1,10 @@
 import 'baseValidator.dart';
 
 class LengthValidator extends BaseValidator {
-
   int _min;
   int _max;
-  LengthValidator(String key, int min, int max) : super(key, "$key must be between $min and $max.") {
+  LengthValidator(String key, int min, int max)
+      : super(key, "$key must be between $min and $max.") {
     _min = min;
     _max = max;
   }
@@ -15,8 +15,7 @@ class LengthValidator extends BaseValidator {
   }
 
   static bool length(String value, min, max) {
-    if(value == null) return false;
+    if (value == null) return false;
     return value.length >= min && value.length <= max;
   }
-
 }

@@ -31,7 +31,7 @@ class DateValidator extends BaseValidator {
         d = new DateFormat(format).parseStrict(value);
       }
       //print('Validated $value using the locale of ${Intl.getCurrentLocale()} - result $d');
-      return true;
+      return d != null;
     } catch (e) {
       return false;
     }

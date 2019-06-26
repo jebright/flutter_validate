@@ -6,5 +6,4 @@ class RuleContainer {
   Function getter;
 
   RuleContainer(this.getter);
-
 }

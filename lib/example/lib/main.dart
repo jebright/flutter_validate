@@ -50,7 +50,8 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   //Make sure the passed in email address does not already exist
   bool beUniqueEmailAddress<String>(String email) {
-    List<String> emails = List.from(["test@test.com", "test1@test.com", "test3@test.com"]);
+    List<String> emails =
+        List.from(["test@test.com", "test1@test.com", "test3@test.com"]);
     return !emails.contains(email);
   }
 
@@ -63,11 +64,13 @@ class MyCustomFormState extends State<MyCustomForm> {
     dobController.addListener(() => contact.dob = dobController.text);
     phoneController.addListener(() => contact.phone = phoneController.text);
     emailController.addListener(() => contact.email = emailController.text);
-    passwordController.addListener(() => contact.password = passwordController.text);
-    confirmPasswordController.addListener(() => contact.confirmPassword = confirmPasswordController.text);
+    passwordController
+        .addListener(() => contact.password = passwordController.text);
+    confirmPasswordController.addListener(
+        () => contact.confirmPassword = confirmPasswordController.text);
 
-    //Validating an object always begins with creating a validator and is followed by 
-    //adding rules to that validator.  In this case we created a ContactValidator by 
+    //Validating an object always begins with creating a validator and is followed by
+    //adding rules to that validator.  In this case we created a ContactValidator by
     //deriving from AbstractValidator<T>.  Then we begin adding rules to the validator
     //for each Contact property that needed validation.  This is the approach you would
     //take when validating business objects but again if you don't have an object, you
@@ -105,12 +108,12 @@ class MyCustomFormState extends State<MyCustomForm> {
         (value) => myContactValidator.validateRuleFor("dob").errorText;
     phoneValidator =
         (value) => myContactValidator.validateRuleFor("phone").errorText;
-    emailValidator = 
+    emailValidator =
         (value) => myContactValidator.validateRuleFor("email").errorText;
-    passwordValidator = 
+    passwordValidator =
         (value) => myContactValidator.validateRuleFor("password").errorText;
-    confirmPasswordValidator = 
-        (value) => myContactValidator.validateRuleFor("confirmPassword").errorText;
+    confirmPasswordValidator = (value) =>
+        myContactValidator.validateRuleFor("confirmPassword").errorText;
   }
 
   @override
@@ -206,7 +209,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             keyboardType: TextInputType.text,
             obscureText: true,
             validator: confirmPasswordValidator,
-          ),          
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: RaisedButton(
