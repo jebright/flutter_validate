@@ -4,14 +4,16 @@ class ValidationResult {
   List<ValidationFailure> errors;
   String _delimiter;
 
-  ValidationResult({String delimeter = ' '}) {
+  ValidationResult({String delimiter = ' '}) {
     errors = new List<ValidationFailure>();
-    _delimiter = delimeter;
+    _delimiter = delimiter;
   }
 
   String get errorText {
     if (errors.length == 0) return null;
     Iterable<String> text = errors.map((f) => f.errorMessage);
-    return text.join(_delimiter);
+    return text.isNotEmpty
+        ? text.join(' ')
+        : null; //TODO: users might not want always separated by space.
   }
 }
