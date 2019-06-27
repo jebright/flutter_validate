@@ -13,7 +13,7 @@ class ValidationResult {
     if (errors.length == 0) return null;
     Iterable<String> text = errors.map((f) => f.errorMessage);
     return text.isNotEmpty
-        ? text.join(' ')
-        : null; //TODO: users might not want always separated by space.
+        ? text.join(_delimiter)
+        : null;
   }
 }
