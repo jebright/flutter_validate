@@ -25,7 +25,7 @@ abstract class AbstractValidator<T> {
 
   ///Validate all rules associated with the passed in key
   ValidationResult validateRuleFor(String key) {
-    var result = new ValidationResult();
+    var result = new ValidationResult(key);
     if (_rules.containsKey(key)) {
       dynamic value = _rules[key].getter();
       //Iterate each ValidationRule and invoke its validate method

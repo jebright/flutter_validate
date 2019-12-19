@@ -1,10 +1,11 @@
 import './validationFailure.dart';
 
 class ValidationResult {
+  String key;
   List<ValidationFailure> errors;
   String _delimiter;
 
-  ValidationResult({String delimiter = ' '}) {
+  ValidationResult(this.key, {String delimiter = ' '}) {
     errors = new List<ValidationFailure>();
     _delimiter = delimiter;
   }

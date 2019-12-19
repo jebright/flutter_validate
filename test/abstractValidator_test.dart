@@ -104,4 +104,11 @@ void main() {
     expect('name is not valid.', allErrors);
   });
 
+  test('validation results include key of associated rule', () {
+    myValidator.ruleFor("Name", () => contact.name)..notEmpty();
+    var validationResults = myValidator.validate();
+    expect(validationResults, hasLength(1));
+    expect(validationResults[0].key, 'Name');
+  });  
+
 }
