@@ -111,4 +111,19 @@ void main() {
     expect(validationResults[0].key, 'Name');
   });  
 
+  test('when using validateRuleForValue, bypasses the getter fuction to use the passed in value', () {
+    contact.name = 'Jane';    
+    myValidator.ruleFor("name", () => contact.name)
+      ..notEmpty()
+      ..withMessage("name is required!");
+    var validationResults = myValidator.validateRuleFor('name');
+    expect(validationResults.errors.length, 0);
+
+    validationResults = myValidator.validateRuleForValue('name', '');
+    expect(validationResults.errors.length, 1);
+    expect(
+        validationResults.errors[0].errorMessage, "name is required!");
+
+  });
+
 }

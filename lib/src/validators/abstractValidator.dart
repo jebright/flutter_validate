@@ -44,6 +44,27 @@ abstract class AbstractValidator<T> {
     return result;
   }
 
+  ///Validate all rules associated with the passed in key for the given value.
+  ///Bypasses the function passed into [ruleFor].
+  ValidationResult validateRuleForValue(String key, dynamic value) {
+    var result = new ValidationResult(key);
+    if (_rules.containsKey(key)) {
+      //Iterate each ValidationRule and invoke its validate method
+      _rules[key].rules.forEach((BaseValidator r) {
+        //Accumulate validation failures in order to create a validation result.
+        var isValid = r.isValid(value);
+        if (!isValid) {
+          result.errors.add(new ValidationFailure()
+            ..associatedWith = key
+            ..errorMessage = r.message);
+        }
+      });
+    }
+    //TODO: throw err if key not found
+
+    return result;
+  }
+
   ///Validate all rules
   List<ValidationResult> validate() {
     var result = new List<ValidationResult>();
