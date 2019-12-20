@@ -51,8 +51,13 @@ void main() {
     expect(RegExpValidator.isValidEmailAddress('joe@joe.com'), true);
   });
 
-  test('bad email, isValid called, is False',
+  test('bad email (username), isValid called, is False',
       () {
     expect(RegExpValidator.isValidEmailAddress('joe.com'), false);
+  });
+
+  test('bad email (domain name), isValid called, is False',
+      () {
+    expect(RegExpValidator.isValidEmailAddress('a@b'), false);
   });
 }

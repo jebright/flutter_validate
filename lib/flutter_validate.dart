@@ -9,3 +9,6 @@ export 'src/validators/abstractValidator.dart';
 export 'src/validators/regExpValidator.dart';
 export 'src/validators/dateValidator.dart';
 export 'src/validators/mustValidator.dart';
+export 'src/validators/maxLengthValidator.dart';
+export 'src/validators/rangeValidator.dart';
+export 'src/validators/emailValidator.dart';
