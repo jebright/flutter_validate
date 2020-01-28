@@ -1,3 +1,4 @@
+import 'package:flutter_validate/flutter_validate.dart';
 import 'package:flutter_validate/src/validators/dateValidator.dart';
 import 'package:flutter_validate/src/validators/emailValidator.dart';
 import 'package:flutter_validate/src/validators/equalValidator.dart';
@@ -41,6 +42,11 @@ class RuleBuilder {
 
   maxLength(max) {
     var validator = new MaxLengthValidator(_key, max);
+    _container.rules.add(validator);
+  }
+
+  range(min, max) {
+    var validator = new RangeValidator(_key, min, max);
     _container.rules.add(validator);
   }
 
