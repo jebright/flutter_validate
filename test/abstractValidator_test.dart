@@ -104,4 +104,26 @@ void main() {
     expect('name is not valid.', allErrors);
   });
 
+  test('validation results include key of associated rule', () {
+    myValidator.ruleFor("Name", () => contact.name)..notEmpty();
+    var validationResults = myValidator.validate();
+    expect(validationResults, hasLength(1));
+    expect(validationResults[0].key, 'Name');
+  });  
+
+  test('when using validateRuleForValue, bypasses the getter fuction to use the passed in value', () {
+    contact.name = 'Jane';    
+    myValidator.ruleFor("name", () => contact.name)
+      ..notEmpty()
+      ..withMessage("name is required!");
+    var validationResults = myValidator.validateRuleFor('name');
+    expect(validationResults.errors.length, 0);
+
+    validationResults = myValidator.validateRuleForValue('name', '');
+    expect(validationResults.errors.length, 1);
+    expect(
+        validationResults.errors[0].errorMessage, "name is required!");
+
+  });
+
 }

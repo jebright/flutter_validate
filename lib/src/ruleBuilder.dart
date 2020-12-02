@@ -1,9 +1,12 @@
+import 'package:flutter_validate/flutter_validate.dart';
 import 'package:flutter_validate/src/validators/dateValidator.dart';
+import 'package:flutter_validate/src/validators/emailValidator.dart';
 import 'package:flutter_validate/src/validators/equalValidator.dart';
 import 'package:flutter_validate/src/validators/lengthValidator.dart';
 import 'package:flutter_validate/src/validators/mustValidator.dart';
 import 'package:flutter_validate/src/validators/wrappingValidator.dart';
 import 'package:flutter_validate/src/when.dart';
+import './validators/maxLengthValidator.dart';
 import './validators/notEmptyValidator.dart';
 import './validators/notEqualValidator.dart';
 import './validators/regExpValidator.dart';
@@ -37,13 +40,23 @@ class RuleBuilder {
     _container.rules.add(validator);
   }
 
+  maxLength(max) {
+    var validator = new MaxLengthValidator(_key, max);
+    _container.rules.add(validator);
+  }
+
+  range(min, max) {
+    var validator = new RangeValidator(_key, min, max);
+    _container.rules.add(validator);
+  }
+
   phoneNumber() {
     var validator = new RegExpValidator(_key, usPhoneMatcher);
     _container.rules.add(validator);
   }
 
   emailAddress() {
-    var validator = new RegExpValidator(_key, emailMatcher);
+    var validator = new EmailValidator(_key);
     _container.rules.add(validator);
   }
 

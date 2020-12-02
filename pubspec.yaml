@@ -1,6 +1,6 @@
 name: flutter_validate
 description: A Flutter package for performing validation using a fluent interface approach.
-version: 1.0.1
+version: 1.0.2
 author: 'Joe Ebright <ebrightster@gmail.com>'
 homepage: https://github.com/jebright/flutter_validate
 
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  intl: ^0.15.7
+  intl: ^0.16.0
 
 dev_dependencies:
   flutter_test:
