@@ -15,7 +15,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  intl: 0.15.7
 
   flutter_validate:
     path: ../../
