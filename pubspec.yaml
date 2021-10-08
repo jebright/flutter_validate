@@ -5,12 +5,12 @@ author: 'Joe Ebright <ebrightster@gmail.com>'
 homepage: https://github.com/jebright/flutter_validate
 
 environment:
-  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  intl: ^0.15.7
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_validate/example/lib/contact.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({
+    Key? key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    final appTitle = 'Form Validation Demo';
+    const appTitle = 'Form Validation Demo';
 
     return MaterialApp(
       title: appTitle,
@@ -22,6 +26,8 @@ class MyApp extends StatelessWidget {
 
 // Create a Form Widget
 class MyCustomForm extends StatefulWidget {
+  const MyCustomForm();
+
   @override
   MyCustomFormState createState() {
     return MyCustomFormState();
@@ -32,26 +38,25 @@ class MyCustomForm extends StatefulWidget {
 class MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
 
-  final Contact contact = new Contact();
-  ContactValidator myContactValidator;
+  final Contact contact = Contact();
+  late ContactValidator myContactValidator;
 
-  final nameController = new TextEditingController();
-  final dobController = new TextEditingController();
-  final phoneController = new TextEditingController();
-  final emailController = new TextEditingController();
-  final passwordController = new TextEditingController();
-  final confirmPasswordController = new TextEditingController();
-  FormFieldValidator nameValidator;
-  FormFieldValidator dobValidator;
-  FormFieldValidator phoneValidator;
-  FormFieldValidator emailValidator;
-  FormFieldValidator passwordValidator;
-  FormFieldValidator confirmPasswordValidator;
+  final nameController = TextEditingController();
+  final dobController = TextEditingController();
+  final phoneController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+  late FormFieldValidator nameValidator;
+  late FormFieldValidator dobValidator;
+  late FormFieldValidator phoneValidator;
+  late FormFieldValidator emailValidator;
+  late FormFieldValidator passwordValidator;
+  late FormFieldValidator confirmPasswordValidator;
 
   //Make sure the passed in email address does not already exist
   bool beUniqueEmailAddress<String>(String email) {
-    List<String> emails =
-        List.from(["test@test.com", "test1@test.com", "test3@test.com"]);
+    List<String> emails = List.from(["test@test.com", "test1@test.com", "test3@test.com"]);
     return !emails.contains(email);
   }
 
@@ -64,10 +69,8 @@ class MyCustomFormState extends State<MyCustomForm> {
     dobController.addListener(() => contact.dob = dobController.text);
     phoneController.addListener(() => contact.phone = phoneController.text);
     emailController.addListener(() => contact.email = emailController.text);
-    passwordController
-        .addListener(() => contact.password = passwordController.text);
-    confirmPasswordController.addListener(
-        () => contact.confirmPassword = confirmPasswordController.text);
+    passwordController.addListener(() => contact.password = passwordController.text);
+    confirmPasswordController.addListener(() => contact.confirmPassword = confirmPasswordController.text);
 
     //Validating an object always begins with creating a validator and is followed by
     //adding rules to that validator.  In this case we created a ContactValidator by
@@ -75,45 +78,40 @@ class MyCustomFormState extends State<MyCustomForm> {
     //for each Contact property that needed validation.  This is the approach you would
     //take when validating business objects but again if you don't have an object, you
     //can use the underlying validators (e.g. notEmptyValidator) directly.
-    myContactValidator = new ContactValidator(contact);
-    myContactValidator.ruleFor("name", () => contact.name)
+    myContactValidator = ContactValidator(contact);
+    myContactValidator.ruleFor("name", () => contact.name ?? '')
       ..notEmpty()
       ..withMessage('Name is required.')
       ..length(10, 20)
       ..withMessage('Name must be between 10 and 20 characters.');
-    myContactValidator.ruleFor("dob", () => contact.dob)
+    myContactValidator.ruleFor("dob", () => contact.dob ?? '')
       ..notEmpty()
       ..date();
-    myContactValidator.ruleFor("phone", () => contact.phone)
+    myContactValidator.ruleFor("phone", () => contact.phone ?? '')
       ..notEmpty()
       ..phoneNumber()
       ..when(() => contact.contactPreference == 'PHONE');
-    myContactValidator.ruleFor("email", () => contact.email)
+    myContactValidator.ruleFor("email", () => contact.email ?? '')
       ..notEmpty()
       ..emailAddress()
       ..must(beUniqueEmailAddress)
       ..when(() => contact.contactPreference == 'EMAIL');
-    myContactValidator.ruleFor("password", () => contact.password)
+    myContactValidator.ruleFor("password", () => contact.password ?? '')
       ..notEmpty()
       ..length(8, 16);
-    myContactValidator.ruleFor("confirmPassword", () => contact.confirmPassword)
-      ..equal(() => contact.password, 'Password');
+    myContactValidator
+        .ruleFor("confirmPassword", () => contact.confirmPassword ?? '')
+        .equal(() => contact.password, 'Password');
 
     //In Flutter, signaling a validation rule error is done by providing any
     //non-null text to a FormField's validator.  We declare this outside of the
     //build method just to keep our code easier to read.
-    nameValidator =
-        (value) => myContactValidator.validateRuleFor("name").errorText;
-    dobValidator =
-        (value) => myContactValidator.validateRuleFor("dob").errorText;
-    phoneValidator =
-        (value) => myContactValidator.validateRuleFor("phone").errorText;
-    emailValidator =
-        (value) => myContactValidator.validateRuleFor("email").errorText;
-    passwordValidator =
-        (value) => myContactValidator.validateRuleFor("password").errorText;
-    confirmPasswordValidator = (value) =>
-        myContactValidator.validateRuleFor("confirmPassword").errorText;
+    nameValidator = (value) => myContactValidator.validateRuleFor("name").errorText;
+    dobValidator = (value) => myContactValidator.validateRuleFor("dob").errorText;
+    phoneValidator = (value) => myContactValidator.validateRuleFor("phone").errorText;
+    emailValidator = (value) => myContactValidator.validateRuleFor("email").errorText;
+    passwordValidator = (value) => myContactValidator.validateRuleFor("password").errorText;
+    confirmPasswordValidator = (value) => myContactValidator.validateRuleFor("confirmPassword").errorText;
   }
 
   @override
@@ -122,12 +120,12 @@ class MyCustomFormState extends State<MyCustomForm> {
     return Form(
       key: _formKey,
       autovalidate: true, //we can flip this on/off to have real-time validation
-      child: new ListView(
+      child: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         children: <Widget>[
           TextFormField(
             decoration: const InputDecoration(
-              icon: const Icon(Icons.person),
+              icon: Icon(Icons.person),
               hintText: 'Enter your first and last name',
               labelText: 'Full Name',
             ),
@@ -135,8 +133,8 @@ class MyCustomFormState extends State<MyCustomForm> {
             validator: nameValidator,
           ),
           TextFormField(
-            decoration: new InputDecoration(
-              icon: const Icon(Icons.calendar_today),
+            decoration: const InputDecoration(
+              icon: Icon(Icons.calendar_today),
               hintText: 'Enter your date of birth',
               labelText: 'Dob',
             ),
@@ -150,9 +148,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                 title: const Text('Phone'),
                 value: 'PHONE',
                 groupValue: contact.contactPreference,
-                onChanged: (String value) {
+                onChanged: (String? value) {
                   setState(() {
-                    contact.contactPreference = value;
+                    contact.contactPreference = value ?? '';
                   });
                 },
               ),
@@ -160,17 +158,17 @@ class MyCustomFormState extends State<MyCustomForm> {
                 title: const Text('Email'),
                 value: 'EMAIL',
                 groupValue: contact.contactPreference,
-                onChanged: (String value) {
+                onChanged: (String? value) {
                   setState(() {
-                    contact.contactPreference = value;
+                    contact.contactPreference = value ?? '';
                   });
                 },
               ),
             ],
           ),
           TextFormField(
-            decoration: new InputDecoration(
-              icon: const Icon(Icons.phone),
+            decoration: const InputDecoration(
+              icon: Icon(Icons.phone),
               hintText: 'Enter your phone number',
               labelText: 'Phone',
             ),
@@ -178,7 +176,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             keyboardType: TextInputType.phone,
             validator: phoneValidator,
           ),
-          new TextFormField(
+          TextFormField(
             decoration: const InputDecoration(
               icon: const Icon(Icons.email),
               hintText: 'Enter your email address',
@@ -188,9 +186,9 @@ class MyCustomFormState extends State<MyCustomForm> {
             keyboardType: TextInputType.emailAddress,
             validator: emailValidator,
           ),
-          new TextFormField(
+          TextFormField(
             decoration: const InputDecoration(
-              icon: const Icon(Icons.lock),
+              icon: Icon(Icons.lock),
               hintText: 'Enter your password',
               labelText: 'Password',
             ),
@@ -199,9 +197,9 @@ class MyCustomFormState extends State<MyCustomForm> {
             obscureText: true,
             validator: passwordValidator,
           ),
-          new TextFormField(
+          TextFormField(
             decoration: const InputDecoration(
-              icon: const Icon(Icons.lock),
+              icon: Icon(Icons.lock),
               hintText: 'Enter your password again',
               labelText: 'Confirm Password',
             ),
@@ -214,24 +212,23 @@ class MyCustomFormState extends State<MyCustomForm> {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: RaisedButton(
               onPressed: () {
-                if (_formKey.currentState.validate()) {
-                  Scaffold.of(context).showSnackBar(SnackBar(
-                      content: Text('Good news! All data in form is valid!')));
-                } else {
+                if (_formKey.currentState?.validate() == true) {
                   Scaffold.of(context)
-                      .showSnackBar(SnackBar(content: Text('Form not valid!')));
+                      .showSnackBar(const SnackBar(content: Text('Good news! All data in form is valid!')));
+                } else {
+                  Scaffold.of(context).showSnackBar(SnackBar(content: const Text('Form not valid!')));
                 }
               },
-              child: Text('Submit'),
+              child: const Text('Submit'),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: RaisedButton(
               onPressed: () {
-                _formKey.currentState.reset();
+                _formKey.currentState?.reset();
               },
-              child: Text('Reset'),
+              child: const Text('Reset'),
             ),
           ),
         ],
