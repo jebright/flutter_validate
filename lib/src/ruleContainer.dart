@@ -1,7 +1,7 @@
 import './validators/baseValidator.dart';
 
 class RuleContainer {
-  List<BaseValidator> rules = List.empty();
+  List<BaseValidator>? rules;
 
   Function getter;
 

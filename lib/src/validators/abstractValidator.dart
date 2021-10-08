@@ -29,7 +29,7 @@ abstract class AbstractValidator<T> {
     if (_rules.containsKey(key)) {
       dynamic value = _rules[key]?.getter();
       //Iterate each ValidationRule and invoke its validate method
-      _rules[key]?.rules.forEach((BaseValidator r) {
+      _rules[key]?.rules?.forEach((BaseValidator r) {
         //Accumulate validation failures in order to create a validation result.
         var isValid = r.isValid(value);
         if (!isValid) {

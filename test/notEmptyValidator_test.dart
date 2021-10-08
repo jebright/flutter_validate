@@ -12,12 +12,12 @@ void main() {
   });
 
   test('empty collection is passed, notEmpty called, is false', () {
-    List<int> emptyList = new List();
+    List<int> emptyList = List.empty();
     expect(NotEmptyValidator.notEmpty(emptyList), false);
   });
 
   test('empty int is passed, notEmpty called, is false', () {
-    int i;
+    int? i;
     expect(NotEmptyValidator.notEmpty(i), false);
   });
 
@@ -30,5 +30,4 @@ void main() {
     String s = ' ';
     expect(NotEmptyValidator.notEmpty(s), true);
   });
-
 }
