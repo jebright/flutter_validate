@@ -1,4 +1,4 @@
 class ValidationFailure {
-  String associatedWith;
-  String errorMessage;
+  String? associatedWith;
+  String? errorMessage;
 }

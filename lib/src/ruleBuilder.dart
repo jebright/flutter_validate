@@ -4,14 +4,15 @@ import 'package:flutter_validate/src/validators/lengthValidator.dart';
 import 'package:flutter_validate/src/validators/mustValidator.dart';
 import 'package:flutter_validate/src/validators/wrappingValidator.dart';
 import 'package:flutter_validate/src/when.dart';
+
+import './ruleContainer.dart';
 import './validators/notEmptyValidator.dart';
 import './validators/notEqualValidator.dart';
 import './validators/regExpValidator.dart';
-import './ruleContainer.dart';
 
 class RuleBuilder {
-  RuleContainer _container;
-  String _key;
+  late RuleContainer _container;
+  late String _key;
   RuleBuilder(String key, RuleContainer container) {
     _key = key;
     _container = container;
@@ -22,12 +23,12 @@ class RuleBuilder {
     _container.rules?.add(validator);
   }
 
-  notEqual(Function compareTo, [String compareToField]) {
+  notEqual(Function compareTo, [String compareToField = '']) {
     var validator = new NotEqualValidator(_key, compareTo, compareToField);
     _container.rules?.add(validator);
   }
 
-  equal(Function compareTo, [String compareToField]) {
+  equal(Function compareTo, [String compareToField = '']) {
     var validator = new EqualValidator(_key, compareTo, compareToField);
     _container.rules?.add(validator);
   }
