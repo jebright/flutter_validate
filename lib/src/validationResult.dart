@@ -5,7 +5,7 @@ class ValidationResult {
   late String _delimiter;
 
   ValidationResult({String delimiter = ' '}) {
-    errors = List.empty();
+    errors = List.empty(growable: true);
     _delimiter = delimiter;
   }
 
