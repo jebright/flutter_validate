@@ -12,6 +12,7 @@
       <root url="file://C:\dev\flutter/bin/cache/dart-sdk/lib/math" />
       <root url="file://C:\dev\flutter/bin/cache/dart-sdk/lib/mirrors" />
       <root url="file://C:\dev\flutter/bin/cache/dart-sdk/lib/typed_data" />
+      <root url="file://$USER_HOME$/development/flutter/bin/cache/dart-sdk/lib/convert" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

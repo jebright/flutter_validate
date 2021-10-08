@@ -6,7 +6,7 @@ import 'package:flutter_validate/src/validators/baseValidator.dart';
 
 abstract class AbstractValidator<T> {
   T instance;
-  Map<String, RuleContainer> _rules;
+  late Map<String, RuleContainer> _rules;
 
   AbstractValidator(this.instance) {
     //FYI - RuleContainer is just a list of validators that are 'assigned' to a particular property to validate.
@@ -27,9 +27,9 @@ abstract class AbstractValidator<T> {
   ValidationResult validateRuleFor(String key) {
     var result = new ValidationResult();
     if (_rules.containsKey(key)) {
-      dynamic value = _rules[key].getter();
+      dynamic value = _rules[key]?.getter();
       //Iterate each ValidationRule and invoke its validate method
-      _rules[key].rules.forEach((BaseValidator r) {
+      _rules[key]?.rules.forEach((BaseValidator r) {
         //Accumulate validation failures in order to create a validation result.
         var isValid = r.isValid(value);
         if (!isValid) {
@@ -46,7 +46,7 @@ abstract class AbstractValidator<T> {
 
   ///Validate all rules
   List<ValidationResult> validate() {
-    var result = new List<ValidationResult>();
+    var result = <ValidationResult>[];
     _rules.forEach((key, container) {
       result.add(validateRuleFor(key));
     });
@@ -55,12 +55,10 @@ abstract class AbstractValidator<T> {
 
   ///Returns all errors in a text format.  Errors are separated by delimiter (default is a space).
   ///IMPORTANT: Executing this method has the side-effect of also executing validate().
-  String errors() {
+  String? errors() {
     var lst = validate();
-    String result = lst.fold<String>('', (previous, element) {
-      return element.errorText != null
-          ? '$previous ${element.errorText}'
-          : null;
+    String? result = lst.fold('', (previous, element) {
+      return element.errorText != null ? '${previous ?? ''} ${element.errorText ?? ''}' : null;
     });
     if (result == null) return null;
     return result.trim();

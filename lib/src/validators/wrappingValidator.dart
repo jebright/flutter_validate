@@ -3,8 +3,8 @@ import 'package:flutter_validate/src/when.dart';
 import 'baseValidator.dart';
 
 class WrappingValidator extends BaseValidator {
-  WhenPredicate _condition;
-  BaseValidator _innerValdiator;
+  late WhenPredicate _condition;
+  late BaseValidator _innerValdiator;
   WrappingValidator(WhenPredicate condition, BaseValidator innerValidator)
       : super(innerValidator.key, innerValidator.message) {
     _condition = condition;
@@ -12,7 +12,7 @@ class WrappingValidator extends BaseValidator {
   }
 
   @override
-  bool isValid(Object value) {
+  bool isValid(Object? value) {
     if (_condition()) {
       return _innerValdiator.isValid(value);
     }
