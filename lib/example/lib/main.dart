@@ -79,28 +79,28 @@ class MyCustomFormState extends State<MyCustomForm> {
     //take when validating business objects but again if you don't have an object, you
     //can use the underlying validators (e.g. notEmptyValidator) directly.
     myContactValidator = ContactValidator(contact);
-    myContactValidator.ruleFor("name", () => contact.name)
+    myContactValidator.ruleFor("name", () => contact.name ?? '')
       ..notEmpty()
       ..withMessage('Name is required.')
       ..length(10, 20)
       ..withMessage('Name must be between 10 and 20 characters.');
-    myContactValidator.ruleFor("dob", () => contact.dob)
+    myContactValidator.ruleFor("dob", () => contact.dob ?? '')
       ..notEmpty()
       ..date();
-    myContactValidator.ruleFor("phone", () => contact.phone)
+    myContactValidator.ruleFor("phone", () => contact.phone ?? '')
       ..notEmpty()
       ..phoneNumber()
       ..when(() => contact.contactPreference == 'PHONE');
-    myContactValidator.ruleFor("email", () => contact.email)
+    myContactValidator.ruleFor("email", () => contact.email ?? '')
       ..notEmpty()
       ..emailAddress()
       ..must(beUniqueEmailAddress)
       ..when(() => contact.contactPreference == 'EMAIL');
-    myContactValidator.ruleFor("password", () => contact.password)
+    myContactValidator.ruleFor("password", () => contact.password ?? '')
       ..notEmpty()
       ..length(8, 16);
     myContactValidator
-        .ruleFor("confirmPassword", () => contact.confirmPassword)
+        .ruleFor("confirmPassword", () => contact.confirmPassword ?? '')
         .equal(() => contact.password, 'Password');
 
     //In Flutter, signaling a validation rule error is done by providing any
