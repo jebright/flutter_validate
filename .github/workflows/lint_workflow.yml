@@ -1,0 +1,50 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Lint Checks
+
+on:
+  pull_request:
+    branches: 
+      - '**'
+
+jobs:
+  tests:
+    name: flutter analyze
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+          architecture: x64
+      
+      - name: Install packages and Analyze
+        run: |
+          flutter pub get
+          flutter analyze > flutter_analyze_report.txt
+          
+      - name: Read flutter_analyze_report
+        id: flutter_analyze_report
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./flutter_analyze_report.txt
+          
+      - name: Echo flutter_analyze_report
+        run: echo "${{ steps.flutter_analyze_report.outputs.content }}"
+
+      - name: Comment PR
+        if: ${{ always() && github.event.pull_request.head.repo.full_name == github.repository }}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: "lints"
+          hide_and_recreate: true
+          hide_classify: "OUTDATED"
+          path: flutter_analyze_report.txt
