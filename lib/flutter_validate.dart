@@ -1,11 +1,11 @@
 library flutter_validate;
 
-export 'src/validators/notEmptyValidator.dart';
-export 'src/validators/notEqualValidator.dart';
-export 'src/validators/equalValidator.dart';
-export 'src/validators/lengthValidator.dart';
-export 'src/validators/wrappingValidator.dart';
-export 'src/validators/abstractValidator.dart';
-export 'src/validators/regExpValidator.dart';
-export 'src/validators/dateValidator.dart';
-export 'src/validators/mustValidator.dart';
+export 'validators/not_empty_validator.dart';
+export 'validators/not_equal_validator.dart';
+export 'validators/equal_validator.dart';
+export 'validators/length_validator.dart';
+export 'validators/wrapping_validator.dart';
+export 'validators/abstract_validator.dart';
+export 'validators/reg_exp_validator.dart';
+export 'validators/date_validator.dart';
+export 'validators/must_validator.dart';

@@ -1,0 +1,50 @@
+name: Run unit tests
+
+on:
+  pull_request:
+    branches: 
+      - '**'
+
+jobs:
+  run_unit_tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out actions
+        uses: actions/checkout@v3
+
+      - name: Install flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install packages
+        run: flutter pub get
+
+      - name: Run unit tests
+        run: flutter test --coverage
+
+      - name: Activate test coverage console
+        run: flutter pub global activate test_cov_console
+        
+      - name: Show code coverage
+        run: flutter pub global run test_cov_console > code_coverage_report.txt
+
+      - name: Read code_coverage_report
+        id: code_coverage_report
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./code_coverage_report.txt
+          
+      - name: Echo code_coverage_report
+        run: echo "${{ steps.code_coverage_report.outputs.content }}"
+        
+      - name: Comment PR
+        if: ${{ always() && github.event.pull_request.head.repo.full_name == github.repository }}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: "unit_test"
+          hide_and_recreate: true
+          hide_classify: "OUTDATED"
+          path: code_coverage_report.txt
